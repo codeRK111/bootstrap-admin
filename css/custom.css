@@ -1,0 +1,13 @@
+.fullHeight {
+     height: 100%;
+}
+
+.fullHeightvh {
+     height: 100vh;
+}
+
+.center {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
