@@ -6,12 +6,41 @@ session_start();
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
+
+    
+    
     exit;
+    
 }
 
+if ($_SESSION["role"] == 'user') {
+    echo $_SESSION["role"];
+    header("location: useroverview.php");
+   
+} 
 
 
+ $mockups = array();
 
+$sql = $conn->prepare("SELECT id ,
+                              name 
+                              from quizname 
+                              ");
+//$sql->bind_param();
+$sql->execute();
+$result = $sql->get_result();
+
+
+if($result->num_rows > 0)
+{
+    while($row = $result->fetch_assoc()) 
+    {
+        array_push($mockups, $row);
+    }
+    
+}
+
+// print_r($mockups[0]['id']);
 
 
 
@@ -760,26 +789,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                         class="dropdown-menu"
                                                         aria-labelledby="dropdownMenuButton"
                                                     >
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            >Mocktest 1</a
-                                                        >
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            >Mocktest 2</a
-                                                        >
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            >Mocktest 3</a
-                                                        >
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            >Mocktest 4</a
-                                                        >
+
+                                                    <?php
+
+                                                    foreach($mockups as $x) {
+                                                      echo "<a class='dropdown-item' href='index.php?id=". $x["id"]. "'
+                                                          >". $x["name"]."</a
+                                                      >";
+                                                    }
+
+                                                    ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -903,7 +922,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                     </div>
                                     <!-- Card Body -->
                                     <div class="card-body">
-                                        <form class="form-horizontal">
+                                        <form class="form-horizontal" method="post" action="config/actions.php">
                                             <div class="form-group">
                                                 <label
                                                     for="full_name_id"
@@ -914,22 +933,18 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                     <select
                                                         class="form-control"
                                                         id="exampleFormControlSelect1"
+                                                        name="mockup"
                                                     >
-                                                        <option
-                                                            >Mockup 1</option
-                                                        >
-                                                        <option
-                                                            >Mockup 2</option
-                                                        >
-                                                        <option
-                                                            >Mockup 3</option
-                                                        >
-                                                        <option
-                                                            >Mockup 4</option
-                                                        >
-                                                        <option
-                                                            >Mockup 5</option
-                                                        >
+
+                                                    <?php
+                                                    
+                                                    foreach($mockups as $x) {
+                                                      echo "<option value='". $x["id"]. "'
+                                                          >". $x["name"]."</option
+                                                      >";
+                                                    }
+                                                    
+                                                    ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -945,8 +960,25 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                         type="text"
                                                         class="form-control"
                                                         id="full_name_id"
-                                                        name="full_name"
+                                                        name="name"
                                                         placeholder="John Deer"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <!-- Full Name -->
+                                                <label
+                                                    for="full_name_id"
+                                                    class="control-label col-sm-2 font-weight-bold"
+                                                    >Mark</label
+                                                >
+                                                <div class="col-sm-10">
+                                                    <input
+                                                        type="number"
+                                                        class="form-control"
+                                                        id="full_name_id"
+                                                        name="mark"
+                                                        
                                                     />
                                                 </div>
                                             </div>
@@ -963,8 +995,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                         type="text"
                                                         class="form-control"
                                                         id="email_id"
-                                                        name="email_name"
+                                                        name="choice_1"
                                                         placeholder="Choice 1"
+                                                        required
                                                     />
                                                 </div>
                                             </div>
@@ -980,8 +1013,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                         type="text"
                                                         class="form-control"
                                                         id="email_id"
-                                                        name="email_name"
+                                                        name="choice_2"
                                                         placeholder="Choice 2"
+                                                        required
                                                     />
                                                 </div>
                                             </div>
@@ -997,8 +1031,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                         type="text"
                                                         class="form-control"
                                                         id="email_id"
-                                                        name="email_name"
+                                                        name="choice_3"
                                                         placeholder="Choice 3"
+                                                        required
                                                     />
                                                 </div>
                                             </div>
@@ -1014,8 +1049,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                         type="text"
                                                         class="form-control"
                                                         id="email_id"
-                                                        name="email_name"
+                                                        name="choice_4"
                                                         placeholder="Choice 4"
+                                                        required
                                                     />
                                                 </div>
                                             </div>
@@ -1030,9 +1066,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                     <div class="radio">
                                                         <label class="radio">
                                                             <input
-                                                                name="email_frequency"
                                                                 type="radio"
-                                                                value="day"
+                                                                value="1"
+                                                                name="correct_choice"
+                                                                required
+                                                                checked
                                                             />
                                                             choice 1
                                                         </label>
@@ -1040,9 +1078,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                     <div class="radio">
                                                         <label class="radio">
                                                             <input
-                                                                name="email_frequency"
                                                                 type="radio"
-                                                                value="day"
+                                                                value="2"
+                                                                name="correct_choice"
                                                             />
                                                             choice 2
                                                         </label>
@@ -1050,9 +1088,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                     <div class="radio">
                                                         <label class="radio">
                                                             <input
-                                                                name="email_frequency"
                                                                 type="radio"
-                                                                value="day"
+                                                                value="3"
+                                                                name="correct_choice"
                                                             />
                                                             choice 3
                                                         </label>
@@ -1060,9 +1098,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                     <div class="radio">
                                                         <label class="radio">
                                                             <input
-                                                                name="email_frequency"
                                                                 type="radio"
-                                                                value="day"
+                                                                value="4"
+                                                                name="correct_choice"
                                                             />
                                                             choice 4
                                                         </label>
@@ -1078,6 +1116,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                                     <button
                                                         type="submit"
                                                         class="btn btn-primary"
+                                                        name="add-question"
                                                     >
                                                         Add Question
                                                     </button>

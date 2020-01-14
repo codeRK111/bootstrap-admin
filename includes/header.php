@@ -26,6 +26,9 @@
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet" />
+        <link href="css/user.css" rel="stylesheet">
+        <link href="css/quiz.css" rel="stylesheet">
         <link href="css/custom.css" rel="stylesheet" />
+
     </head>
 <body>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2020 at 01:32 PM
+-- Generation Time: Jan 14, 2020 at 11:51 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -35,6 +35,16 @@ CREATE TABLE `answers` (
   `answerText` varchar(999) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `answers`
+--
+
+INSERT INTO `answers` (`id`, `questionId`, `correctAnswer`, `answerText`) VALUES
+(17, 16, 0, 'red'),
+(18, 16, 1, 'blue'),
+(19, 16, 0, 'green'),
+(20, 16, 0, 'yellow');
+
 -- --------------------------------------------------------
 
 --
@@ -56,12 +66,20 @@ CREATE TABLE `enrolment` (
 
 CREATE TABLE `questions` (
   `id` int(9) NOT NULL,
+  `number` int(9) NOT NULL,
   `quizId` int(9) NOT NULL,
   `questionText` varchar(999) NOT NULL,
   `mark` int(9) NOT NULL,
   `createdAt` date NOT NULL,
   `updatedAt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` (`id`, `number`, `quizId`, `questionText`, `mark`, `createdAt`, `updatedAt`) VALUES
+(16, 1, 13, 'Color of sky', 20, '2020-01-14', '2020-01-14');
 
 -- --------------------------------------------------------
 
@@ -78,6 +96,13 @@ CREATE TABLE `quizname` (
   `updatedAt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `quizname`
+--
+
+INSERT INTO `quizname` (`id`, `name`, `paymentRequired`, `cost`, `createdAt`, `updatedAt`) VALUES
+(13, 'Mockup 1', 0, 0, '2020-01-14', '2020-01-14');
+
 -- --------------------------------------------------------
 
 --
@@ -92,6 +117,13 @@ CREATE TABLE `useranswer` (
   `answerId` int(9) NOT NULL,
   `score` int(9) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `useranswer`
+--
+
+INSERT INTO `useranswer` (`id`, `userId`, `quizId`, `questionId`, `answerId`, `score`) VALUES
+(1, 6, 13, 16, 20, 0);
 
 -- --------------------------------------------------------
 
@@ -113,8 +145,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `number`) VALUES
-(1, '', '', '$2y$10$WT.8EAxVIabhwU/iARU/JOQH6OQLuChOHigdCklX/d/4H9qLnxDn2', 'user', 0),
-(2, 'rer', 'admin@gmail.com', '$2y$10$UYdRJHAJLlOGXM0I5tWbTuRGK01kN7OjCSZyROO1llgvdA2.v2tKS', 'user', 0);
+(3, 'Testuser', 'testuser4@gmail.com', '$2y$10$EXMkY25zF4wfnDq59L5koux42tQbcsRBoHhKBU97EPuAA30serHFW', 'admin', 853325956),
+(4, 'Rakesh Chandra Dash', 'testuser5@gmail.com', '$2y$10$CJzuMEa0wp7cqcCz8uENN.cMYdXamG9W5esROrEfX7devHZFm16b.', 'user', 2147483647),
+(5, 'admin', 'admin@gmail.com', '$2y$10$Mk4K69SITULzlLzI8VBejuQlIQiwifPkh1cz9EAQF3fupA7qWqKJ.', 'admin', 2147483647),
+(6, 'Rakesh', 'testuser6@gmail.com', '$2y$10$BmvIztvqgSRvqPppyMMuTejCJN9za5boaTQyjP1sPIPQc1nyUBqE2', 'user', 2147483647);
 
 --
 -- Indexes for dumped tables
@@ -170,7 +204,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `enrolment`
@@ -182,25 +216,25 @@ ALTER TABLE `enrolment`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `quizname`
 --
 ALTER TABLE `quizname`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `useranswer`
 --
 ALTER TABLE `useranswer`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
