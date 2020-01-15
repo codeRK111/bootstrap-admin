@@ -1,6 +1,16 @@
 
 <?php include('config/db.php'); ?>
 
+<?php
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit; 
+}
+
+?>
 
 <?php
 
@@ -80,10 +90,11 @@ if($result->num_rows > 0)
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+  <h5 class="text-light border-bottom border-light w-100 p-3"><?php echo $_SESSION['name']; ?></h5>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="#about">Home</a>
+        <a class="nav-link js-scroll-trigger" href="useroverview.php">Home</a>
       </li>
        <li class="nav-item">
         <a class="nav-link js-scroll-trigger" href="logout.php">logout</a>
@@ -123,7 +134,7 @@ if($result->num_rows > 0)
                         <div class="card">
                           <div class="card-body">
                             <h5 class="card-title">'.$key["name"].'</h5>
-                            <a href="user.php?mId='.$key["id"].'&num=1" class="btn btn-primary">Go somewhere</a>
+                            <a href="user.php?mId='.$key["id"].'&num=1" class="btn btn-primary">Take part</a>
                           </div>
                         </div>
                       </div>';

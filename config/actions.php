@@ -53,7 +53,7 @@ if (isset($_POST["answer-question"]))
     $goToResultPage = false;
 
     // Count number of questions
-    $sql = $conn->prepare("SELECT COUNT(*) as totalQueestion FROM questions WHERE quizId = ? ");
+     $sql = $conn->prepare("SELECT COUNT(*) as totalQuestion FROM questions WHERE quizId = ? ");
      $sql->bind_param("i",$mockupId);
      $sql->execute();
      $result = $sql->get_result();
@@ -63,7 +63,7 @@ if (isset($_POST["answer-question"]))
     if ($sql->affected_rows > 0)
      {
        $row = $result->fetch_assoc();
-      if ($questionNumber == $row['totalQueestion']) {
+      if ($questionNumber == $row['totalQuestion']) {
           $goToResultPage = true;
       }
      }
@@ -110,12 +110,22 @@ if (isset($_POST["answer-question"]))
                     {
                         echo "successfully updated";
                         if ($goToResultPage) {
-                          header("Location: ../result.php");
+                          header("Location: ../result.php?mId=$mockupId&userId=$userId&questionId=$questionId");
                         } else {
                             # code...
                             header("Location: ../user.php?mId=$mockupId&num=$nextQuestionNumber");
                         }
                         
+
+                    }
+                    else if($sql->affected_rows == 0)
+                    {
+                       if ($goToResultPage) {
+                         header("Location: ../result.php?mId=$mockupId&userId=$userId&questionId=$questionId");
+                       } else {
+                           # code...
+                           header("Location: ../user.php?mId=$mockupId&num=$nextQuestionNumber");
+                       } 
 
                     }
                     else if($sql->affected_rows < 0)
@@ -137,10 +147,11 @@ if (isset($_POST["answer-question"]))
                                                                                  quizId,
                                                                                  questionId,
                                                                                  answerId,
-                                                                                 score
+                                                                                 score,
+                                                                                 realscore
                                                                              )
-                                                                             VALUES (? , ? , ? , ? , ? )");
-                     $sql->bind_param("iiiii",$userId,$mockupId,$questionId,$answer,$totalscore);
+                                                                             VALUES (? , ? , ? , ? , ?,? )");
+                     $sql->bind_param("iiiii",$userId,$mockupId,$questionId,$answer,$totalscore,$mark);
                      $sql->execute();
 
 
@@ -150,7 +161,7 @@ if (isset($_POST["answer-question"]))
                      {
                          echo "successfully added";
                        if ($goToResultPage) {
-                         header("Location: ../result.php");
+                         header("Location: ../result.php?mId=$mockupId&userId=$userId&questionId=$questionId");
                        } else {
                            # code...
                            header("Location: ../user.php?mId=$mockupId&num=$nextQuestionNumber");

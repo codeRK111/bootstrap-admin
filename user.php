@@ -1,5 +1,15 @@
 <?php include('config/db.php'); ?>
 <?php
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit; 
+}
+
+?>
+<?php
 if (isset($_GET['num']) && isset($_GET['mId'])) {
     $num = $_GET['num'];
     $mId = $_GET['mId'];
@@ -8,6 +18,8 @@ if (isset($_GET['num']) && isset($_GET['mId'])) {
      $quizname;
      $questionId;
      $answers = array();
+     $backlink = 'mId='. (string)$mId . '&num='. (string)($num - 1);
+    // echo $backlink;
 
 
 
@@ -102,10 +114,11 @@ if (isset($_GET['num']) && isset($_GET['mId'])) {
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <h5 class="text-light border-bottom border-light w-100 p-3"><?php echo $_SESSION['name']; ?></h5>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#about">Home</a>
+          <a class="nav-link js-scroll-trigger" href="useroverview.php">Home</a>
         </li>
          <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="logout.php">logout</a>
@@ -141,7 +154,7 @@ if (isset($_GET['num']) && isset($_GET['mId'])) {
         <div class="row ">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 mt-5">
          <div class="shadow p-5  bg-white rounded h-100">
-              <form action="config/actions.php" method="post">
+              <form action="config/actions.php" method="post" id="question-form">
               <ul class="quiz">
                    <li>
                         <h5><?php echo $question; ?></h5>
@@ -156,12 +169,20 @@ if (isset($_GET['num']) && isset($_GET['mId'])) {
                             
                         </ul>
                    </li>
-                   <li class="mt-3 text-right">
-                        <button class="btn btn-primary btn-lg" name="answer-question" type="submit">Submit</button>
+                   <li class="mt-3 d-flex justify-content-between w-100">
+                   <?php
+                   if ($num != 1) {
+                       echo '<a href="user.php?'.$backlink.'" class="btn btn-primary btn-lg">Back</a>';
+                   } else {
+                        echo '<p></p>';
+                   }
+                   
+                   ?>
+                    <button class="btn btn-primary btn-lg" name="answer-question" type="submit">Submit</button>
                    </li>
               </ul>
 
-              <input type="hidden" name="questionNumber" value="<?php echo $num; ?>"">
+              <input type="hidden" name="questionNumber" value="<?php echo $num; ?>" id="question-number">
               <input type="hidden" name="mId" value="<?php echo $mId; ?>"">
               <input type="hidden" name="questionId" value="<?php echo $questionId; ?>"">
               <input type="hidden" name="mark" value="<?php echo $mark; ?>"">

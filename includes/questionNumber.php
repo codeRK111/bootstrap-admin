@@ -42,7 +42,16 @@ $answerNumbers = array();
             
      <?php
      foreach ($answerNumbers as $value) {
-          echo '<a href="user.php?mId='.$mId.'&num='.$value.'" class="question-number">'.$value.'</a>';
+
+          if ($num == $value) {
+               $class = "current-question";
+          } 
+          else {
+               $class = "";
+          }
+          
+
+          echo '<a href="user.php?mId='.$mId.'&num='.$value.'" class="question-number '.$class.'" id="question-'.$value.'">'.$value.'</a>';
      }
      
      ?>

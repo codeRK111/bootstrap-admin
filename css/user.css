@@ -28,7 +28,7 @@ h5,
 h6 {
   font-family: 'Saira Extra Condensed', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-weight: 700;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: #343a40;
 }
 
@@ -96,6 +96,22 @@ p.lead {
   outline-color: #d48a6e;
 }
 
+.wrong-answer {
+     background: rgba(255,0,0,0.2);
+     padding: 0.5rem;
+}
+
+.right-answer {
+     background: rgba(58,201,126,0.2);
+     padding: 0.5rem;
+     }
+.current-question {
+     background: rgba(58,201,126,0.2);
+}
+.answered-question {
+     background:#eee;
+}
+
 @media (min-width: 992px) {
   #sideNav {
     text-align: center;
@@ -109,7 +125,7 @@ p.lead {
   }
   #sideNav .navbar-brand {
     display: flex;
-    margin: auto auto 0;
+    /* margin: auto auto 0; */
     padding: 0.5rem;
   }
   #sideNav .navbar-brand .img-profile {
